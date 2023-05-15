@@ -42,7 +42,7 @@ def push(data):
         
     
     
-while True:
-    time.sleep(.1)
-    parse(f"LM-TIDE:group{random.randint(1,10)}:{random.randrange(0, 35)}:{random.randrange(0,100)}:{random.randrange(300, 900)}:{random.randrange(300, 900)}:{random.randrange(300, 900)}:{random.randrange(300, 900)}")
+# while True:
+#     time.sleep(.1)
+#     parse(f"LM-TIDE:group{random.randint(1,10)}:{random.randrange(0, 35)}:{random.randrange(0,100)}:{random.randrange(300, 900)}:{random.randrange(300, 900)}:{random.randrange(300, 900)}:{random.randrange(300, 900)}")
     
