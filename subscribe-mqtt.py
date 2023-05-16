@@ -8,8 +8,8 @@ from data_sort import parse
 LM-TIDE:GROUPNAME:TEMP:HUMID:ECO2:TVOC:H2:ETHANOL
 """
 
-# broker = "test.mosquitto.org"
-broker = "broker.hivemq.com"
+broker = "test.mosquitto.org"
+# broker = "broker.hivemq.com"
 # broker = "mqtt.tideyb.org"
 port = 1883
 topic = "tide-lm-data-send"
@@ -33,7 +33,7 @@ def connect_mqtt():
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-        print(msg.payload.decode(), type(msg.payload.decode()))
+        # print(msg.payload.decode(), type(msg.payload.decode()))
         parse(msg.payload.decode())
 
     client.subscribe(topic)
