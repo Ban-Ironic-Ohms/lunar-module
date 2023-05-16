@@ -23,7 +23,8 @@ def parse(data):
         print(f"Data length is {len(data)}")
         return False
 
-    push_json(data)
+    # push_json(data)
+    push_csv(data)
 
 def push_json(data):
     filename = f"{data[0]}.json"
@@ -41,13 +42,14 @@ def push_json(data):
         json.dump(file, f, indent=4)
 
 def push_csv(data):
-    filenae = f"{data[0]}.csv"
+    filename = f"{data[0]}.csv"
     
     # write to the csv file where there is a new line for each data point, and the headers are the first line
     # headers will be: time, temp, humid, eco2, tvoc, h2, ethanol
     with open(filename, "a") as f:
-        f.write(f"{data[0]}, {data[1]}, {data[2]}, {data[3]}, {data[4]}, {data[5]}, {data[6]}\n")
-        
+        f.write(f"{str(datetime.now())}, {data[1]}, {data[2]}, {data[3]}, {data[4]}, {data[5]}, {data[6]}\n")
+    
+    print(datetime.now())
     
     
 # while True:
