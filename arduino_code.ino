@@ -34,6 +34,11 @@ uint32_t getAbsoluteHumidity(float temperature, float humidity) {
   return absoluteHumidityScaled;
 }
 
+void reset_temp() {
+  Serial.println("resetting temp humid sensor");
+  AM2320_asukiaaa mySensor;
+}
+
 void connect_Wifi() {
 Serial.print("Attempting to connect to WPA SSID: ");
 Serial.println(ssid);
@@ -119,6 +124,7 @@ void loop() {
 
  if (mySensor.update() != 0) {
   Serial.println("Error: Cannot update sensor values.");
+  reset_temp();
 } else {
   Serial.println("temperatureC: " + String(mySensor.temperatureC) + " C");
   Serial.println("temperatureF: " + String(mySensor.temperatureF) + " F");
@@ -146,7 +152,7 @@ if (counter == 30) {
  int ethanol = sgp.rawEthanol;
  Serial.println("sending mqtt message to " + String(topic));
  mqttClient.beginMessage(topic);
- mqttClient.print("LM-TIDE:group2:" + String(temp) + ":" + String(humid) + ":" + String(ec02) + ":" + String(tvoc) + ":" + String(h2) + ":" + String(ethanol));
+ mqttClient.print("LM-TIDE:group3:" + String(temp) + ":" + String(humid) + ":" + String(ec02) + ":" + String(tvoc) + ":" + String(h2) + ":" + String(ethanol));
  mqttClient.endMessage();
 
 delay(1000 * 10);
