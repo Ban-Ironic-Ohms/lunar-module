@@ -34,9 +34,12 @@ uint32_t getAbsoluteHumidity(float temperature, float humidity) {
   return absoluteHumidityScaled;
 }
 
-void connect_MQTT() {
+void connect_Wifi() {
 Serial.print("Attempting to connect to WPA SSID: ");
 Serial.println(ssid);
+Serial.print("Disconnecting -- ");
+WiFi.disconnect();
+Serial.println("Reconnecting");
 while (WiFi.begin(ssid, pass) != WL_CONNECTED) {
   // failed, retry
   Serial.print(".");
@@ -45,15 +48,26 @@ while (WiFi.begin(ssid, pass) != WL_CONNECTED) {
 
 Serial.println("You're connected to the network");
 Serial.println();
+}
+int retries = 0;
+void connect_MQTT() {
+// connect_Wifi();
 
 Serial.print("Attempting to connect to the MQTT broker: ");
 Serial.println(broker);
 
-if(client.connect(broker, port)){
+if(mqttClient.connect(broker, port)){
   Serial.println("Connected to MQTT Broker");
 }
 else{
-    Serial.println("Connection to MQTT Broker failed...");
+    Serial.print("Connection to MQTT Broker failed...");
+    Serial.println(mqttClient.connectError());
+    if (retries > 5){
+      retries = 0;
+      connect_Wifi();
+    }
+    retries++;
+    Serial.println("retrying MQTT connection number " + String(retries));
 }
 
 }
@@ -66,7 +80,8 @@ Serial.println("SGP30 test");
 
 if (! sgp.begin()){
   Serial.println("Sensor not found :(");
-  while (1);
+  delay(3000);
+  setup();
 }
 Serial.print("Found SGP30 serial #");
 Serial.print(sgp.serialnumber[0], HEX);
@@ -76,7 +91,8 @@ Serial.println(sgp.serialnumber[2], HEX);
 Wire.begin();
 mySensor.setWire(&Wire);
 
-connect_MQTT();
+// connect_MQTT();
+connect_Wifi();
 }
 
 int counter = 0;
@@ -133,6 +149,6 @@ if (counter == 30) {
  mqttClient.print("LM-TIDE:group2:" + String(temp) + ":" + String(humid) + ":" + String(ec02) + ":" + String(tvoc) + ":" + String(h2) + ":" + String(ethanol));
  mqttClient.endMessage();
 
-delay(1000 * 60);
+delay(1000 * 10);
  
 }
