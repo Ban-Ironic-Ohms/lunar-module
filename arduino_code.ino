@@ -109,26 +109,26 @@ void loop() {
   unsigned long currentMillis = millis();
 
   if (! sgp.IAQmeasure()) {
-    Serial.println("Measurement failed");
+    // Serial.println("Measurement failed");
     return;
   }
-  Serial.print("TVOC "); Serial.print(sgp.TVOC); Serial.print(" ppb\t");
-  Serial.print("eCO2 "); Serial.print(sgp.eCO2); Serial.println(" ppm");
+  // Serial.print("TVOC "); Serial.print(sgp.TVOC); Serial.print(" ppb\t");
+  // Serial.print("eCO2 "); Serial.print(sgp.eCO2); Serial.println(" ppm");
 
   if (! sgp.IAQmeasureRaw()) {
-    Serial.println("Raw Measurement failed");
+    // Serial.println("Raw Measurement failed");
     return;
   }
-  Serial.print("Raw H2 "); Serial.print(sgp.rawH2); Serial.print(" \t");
-  Serial.print("Raw Ethanol "); Serial.print(sgp.rawEthanol); Serial.println("");
+  // Serial.print("Raw H2 "); Serial.print(sgp.rawH2); Serial.print(" \t");
+  // Serial.print("Raw Ethanol "); Serial.print(sgp.rawEthanol); Serial.println("");
 
  if (mySensor.update() != 0) {
-  Serial.println("Error: Cannot update sensor values.");
+  // Serial.println("Error: Cannot update sensor values.");
   reset_temp();
 } else {
-  Serial.println("temperatureC: " + String(mySensor.temperatureC) + " C");
-  Serial.println("temperatureF: " + String(mySensor.temperatureF) + " F");
-  Serial.println("humidity: " + String(mySensor.humidity) + " %");
+  // Serial.println("temperatureC: " + String(mySensor.temperatureC) + " C");
+  // Serial.println("temperatureF: " + String(mySensor.temperatureF) + " F");
+  // Serial.println("humidity: " + String(mySensor.humidity) + " %");
 }
 
 counter++;
@@ -137,11 +137,11 @@ if (counter == 30) {
 
   uint16_t TVOC_base, eCO2_base;
   if (! sgp.getIAQBaseline(&eCO2_base, &TVOC_base)) {
-    Serial.println("Failed to get baseline readings");
+    // Serial.println("Failed to get baseline readings");
     return;
   }
-  Serial.print("****Baseline values: eCO2: 0x"); Serial.print(eCO2_base, HEX);
-  Serial.print(" & TVOC: 0x"); Serial.println(TVOC_base, HEX);
+  // Serial.print("****Baseline values: eCO2: 0x"); Serial.print(eCO2_base, HEX);
+  // Serial.print(" & TVOC: 0x"); Serial.println(TVOC_base, HEX);
 }
 
  int temp = mySensor.temperatureC;
@@ -150,10 +150,12 @@ if (counter == 30) {
  int tvoc = sgp.TVOC;
  int h2 = sgp.rawH2;
  int ethanol = sgp.rawEthanol;
- Serial.println("sending mqtt message to " + String(topic));
+//  Serial.println("sending mqtt message to " + String(topic));
  mqttClient.beginMessage(topic);
  mqttClient.print("LM-TIDE:group3:" + String(temp) + ":" + String(humid) + ":" + String(ec02) + ":" + String(tvoc) + ":" + String(h2) + ":" + String(ethanol));
  mqttClient.endMessage();
+ Serial.println("LM-TIDE:group3:" + String(temp) + ":" + String(humid) + ":" + String(ec02) + ":" + String(tvoc) + ":" + String(h2) + ":" + String(ethanol));
+
 
 delay(1000 * 10);
  
