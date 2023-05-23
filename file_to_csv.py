@@ -1,14 +1,13 @@
 from data_sort import parse
 import sys
 
-# print(sys.argv)
-
-
 def run(filename):
     with open(filename, "r") as f:
         data = f.readlines()
         for line in data:
-            parse(line[:-1])
+            print(line[:8])
+            if line[:8] == "LM-TIDE:":
+                parse(line[:-1])
     
         
 if __name__ == "__main__":
