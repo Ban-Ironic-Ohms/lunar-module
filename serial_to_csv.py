@@ -3,13 +3,13 @@ from data_sort import parse
 import time
 import sys
 
-# baud = 9600
-# port = '/dev/ttyACM0'
-# ser = serial.Serial(port, baud, timeout=1)
+baud = 9600
+port = 'COM#'
+ser = serial.Serial(port, baud, timeout=1)
 
 def run():
-    ser = serial.Serial(port=sys.argv[1],baudrate=int(sys.argv[2]))
-    # ser = serial.Serial(port, baud, timeout=1)
+    # ser = serial.Serial(port=sys.argv[1],baudrate=int(sys.argv[2]))
+    ser = serial.Serial(port, baud, timeout=1)
     while True:
         try:
             while ser.in_waiting:
