@@ -1,12 +1,15 @@
 import serial
 from data_sort import parse
 import time
+import sys
 
-baud = 9600
-port = '/dev/ttyACM0'
-ser = serial.Serial(port, baud, timeout=1)
+# baud = 9600
+# port = '/dev/ttyACM0'
+# ser = serial.Serial(port, baud, timeout=1)
 
 def run():
+    ser = serial.Serial(port=sys.argv[1],baudrate=int(sys.argv[2]))
+    # ser = serial.Serial(port, baud, timeout=1)
     while True:
         try:
             while ser.in_waiting:
@@ -16,11 +19,11 @@ def run():
                     parse(data)
         except Exception as e:
             print(e)
-            print("oops! Somethign went wrong. Waiting 30 seconds and retrying")
-            time.sleep(30)
+            print("oops! Somethign went wrong. Waiting 10 seconds and retrying")
+            time.sleep(10)
             run()
-        # print("oops! Somethign went wrong. Waiting 30 seconds and retrying")
-        # time.sleep(30)
+        # print("oops! Somethign went wrong. Waiting 10 seconds and retrying")
+        # time.sleep(10)
         # run()
 
         
