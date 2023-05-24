@@ -4,7 +4,7 @@ import time
 import sys
 
 baud = 9600
-port = 'COM#'
+port = '/dev/ttyACM0'
 ser = serial.Serial(port, baud, timeout=1)
 
 def run():
