@@ -4,12 +4,12 @@ import time
 import sys
 
 baud = 9600
-port = '/dev/ttyACM0'
+port = 'COM3'
 ser = serial.Serial(port, baud, timeout=1)
 
 def run():
     # ser = serial.Serial(port=sys.argv[1],baudrate=int(sys.argv[2]))
-    ser = serial.Serial(port, baud, timeout=1)
+    # ser = serial.Serial(port, baud, timeout=1)
     while True:
         try:
             while ser.in_waiting:
